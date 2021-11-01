@@ -1,7 +1,7 @@
 'use-strict'
 
 const myContainer = document.querySelector('section');
-const myButton = document.querySelector('main div');
+const myButton = document.getElementById('results');
 const results = document.querySelector('ul');
 
 let image1 = document.querySelector('section img:first-child');
@@ -117,7 +117,7 @@ function handleProductClick(event) {
     }
   }
   if (rounds > limit) {
-    alert('You passed round 25 - it is over');
+    alert('You passed round 25 - Click the View Results CTA below to see the results');
     //   image1.src = '';
     // image2.src = '';
     // image3.src = '';
@@ -143,10 +143,15 @@ function handleButtonClick(e) {
   
 }
 
+function handleAlert(e) {
+  alert('To begin click one of the boxes below to load first three products');
+}
 
 myButton.addEventListener('click', handleButtonClick);
 
 myContainer.addEventListener('click', handleProductClick);
+
+window.addEventListener('load', handleAlert);
 
 // my view results is not working need to get help with function handleButtonClick(event)
 

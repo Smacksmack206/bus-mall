@@ -1,4 +1,12 @@
+body {
+  background-color: aqua !important;
+}
 
+nav {
+  
+  margin: 15px;
+  margin-right: 20px;
+}
 
 section {
     background-color: grey;
@@ -31,7 +39,11 @@ section {
     width: max-content;
     background-color: lightgray;
     font-size: .8rem;
-    padding: .5rem 1rem
+    padding: .5rem .5rem;
+    margin-left: 15px;
+    
   }
+
+  
   
    /* pointer-events: none; */

@@ -21,17 +21,17 @@ section {
     border: 5px solid brown;
   }
 
- section div:hover {
+ main div:hover {
   cursor: pointer;
   border: 20px solid green;
  }
   
   section + div {
-    pointer-events: none;
+   
     width: max-content;
     background-color: lightgray;
     font-size: .8rem;
     padding: .5rem 1rem
   }
   
-  /* section + div + clicks-allowed */
+   /* pointer-events: none; */

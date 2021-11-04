@@ -9,7 +9,7 @@ let image2 = document.querySelector('section img:nth-child(2)');
 let image3 = document.querySelector('section img:nth-child(3)');
 
 
-
+const randomNumbersArray = [];
 let allProducts = [];
 const clicksAllowed = 3;
 let clicks = 0;
@@ -63,14 +63,11 @@ function selectRandomProduct() {
 //renders products to myContainer//
 
 function renderProduct() {
-  let Product1 = selectRandomProduct();
-  let Product2 = selectRandomProduct();
-  let Product3 = selectRandomProduct();
 
-  //For each of the three images, increment its property of times it has been shown by one.//
-  allProducts[Product1].views++;
-  allProducts[Product2].views++;
-  allProducts[Product3].views++;
+  // let Product2 = selectRandomProduct();
+  // let Product3 = selectRandomProduct();
+
+
   // console.log(allProducts[Product1].views);
   // console.log(allProducts[Product2].views);
   // console.log(allProducts[Product3].views);
@@ -78,31 +75,33 @@ function renderProduct() {
   //array.method. include() look this up will be useful//
 
   //makes sure products are not the same//
-  while (Product1 === Product2 || Product2 === Product3 || Product1 === Product3) {
+  while (randomNumbersArray.length < 6) {
+    let Product1 = selectRandomProduct();
+    if (!randomNumbersArray.includes(Product1)){
+      randomNumbersArray.push(Product1);
 
-    Product2 = selectRandomProduct();
-    Product3 = selectRandomProduct();
-
-
+    }
 
   }
+  console.log(randomNumbersArray);
+  image1.src = allProducts[randomNumbersArray[0]].src;
+  image1.alt = allProducts[randomNumbersArray[0]].name;
+  image1.views = allProducts[randomNumbersArray[0]].views;
+  image2.src = allProducts[randomNumbersArray[1]].src;
+  image2.alt = allProducts[randomNumbersArray[1]].name;
+  image2.views = allProducts[randomNumbersArray[1]].views;
+  image3.src = allProducts[randomNumbersArray[2]].src;
+  image3.alt = allProducts[randomNumbersArray[2]].name;
+  image3.views = allProducts[randomNumbersArray[2]].views;
 
-  image1.src = allProducts[Product1].src;
-  image1.alt = allProducts[Product1].name;
-  image1.views = allProducts[Product1].views;
-  image2.src = allProducts[Product2].src;
-  image2.alt = allProducts[Product2].name;
-  image2.views = allProducts[Product2].views;
-  image3.src = allProducts[Product3].src;
-  image3.alt = allProducts[Product3].name;
-  image3.views = allProducts[Product3].views;
 }
+
 
 function handleProductClick(event) {
   if (event.target === myContainer) {
     alert('Please click on an image');
   }
-  
+
   // console.log(clicks);
   let clickedProduct = event.target.alt;
   // console.log(event.target.alt);
@@ -127,20 +126,96 @@ function handleProductClick(event) {
     myContainer.removeEventListener('click', handleProductClick);
     return;
   } else if (rounds < limit) {
+    randomNumbersArray.shift();
+    randomNumbersArray.shift();
+    randomNumbersArray.shift();
     renderProduct();
   }
 }
 // renderProduct();
 
 function handleButtonClick(e) {
-
-    for (let i = 0; i < allProducts.length; i++) {
+  let productName = [];
+  let productClicks = [];
+  let ProductsViews = [];
+  for (let i = 0; i < allProducts.length; i++) {
     let li = document.createElement('li');
-    li.textContent = `${allProducts[i].name} had ${allProducts[i].clicks} votes, and was seen ${allProducts[i].views} times.`;
-    results.appendChild(li);
+    // li.textContent = `${allProducts[i].name} had ${allProducts[i].clicks} votes, and was seen ${allProducts[i].views} times.`;
+    // results.appendChild(li);
+    productName.push(allProducts[i].name);
+    productClicks.push(allProducts[i].clicks);
+    ProductsViews.push(allProducts[i].views);
   }
-  
-  
+
+  let labelArray = [1, 2, 3, 4, 5, 6, 7];
+ 
+
+  const data = {
+    labels: productName,
+    datasets: [{
+      label: 'Views',
+      data: ProductsViews,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)'
+      ],
+      borderWidth: 1
+    }, {
+      label: 'Likes',
+      data: productClicks,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(201, 203, 207, 0.2)'
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+        'rgb(201, 203, 207)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+
 }
 
 function handleAlert(e) {
@@ -153,7 +228,6 @@ myContainer.addEventListener('click', handleProductClick);
 
 window.addEventListener('load', handleAlert);
 
-// my view results is not working need to get help with function handleButtonClick(event)
+// map two labels for Chart.Js to productLikes and ProductsViews below
 
-// Listing results with that event handler is the last req I need to finish
 

@@ -231,3 +231,4 @@ window.addEventListener('load', handleAlert);
 // map two labels for Chart.Js to productLikes and ProductsViews below
 
 
+

@@ -10,7 +10,7 @@ let image3 = document.querySelector('section img:nth-child(3)');
 
 
 const randomNumbersArray = [];
-let allProducts = [];
+const allProducts = JSON.parse(localStorage.getItem("allProducts")) || [];
 const clicksAllowed = 3;
 let clicks = 0;
 let rounds = 0;
@@ -25,6 +25,10 @@ function Product(name, fileExtention = 'jpg', views) {
   //2.a In the constructor function define a property to hold the number of times a product has been clicked.//
   this.likes = 0;
   this.clicks = 0;
+  this.total = JSON.parse(localStorage.getItem(this.name)) || {
+    views: [],
+    likes: []
+    };  
   allProducts.push(this);
 }
 
@@ -96,6 +100,15 @@ function renderProduct() {
 
 }
 
+//This is where we are going to store the products
+Product.prototype.storeTolocalStorage = function () {
+  
+  this.total.views.push(this.views);
+  this.total.likes.push(this.likes);
+  console.log(this.total);
+localStorage.setItem(this.name, JSON.stringify(this.total));
+
+}
 
 function handleProductClick(event) {
   if (event.target === myContainer) {
@@ -111,6 +124,7 @@ function handleProductClick(event) {
       allProducts[i].likes++;
       rounds++;
       allProducts[i].clicks++
+      allProducts[i].views++
       // console.log(rounds);
       break
     }
@@ -124,6 +138,10 @@ function handleProductClick(event) {
     // image2.alt = '';
     // image3.alt = '';
     myContainer.removeEventListener('click', handleProductClick);
+    for (let product of allProducts) {
+      product.storeTolocalStorage();
+    }
+    
     return;
   } else if (rounds < limit) {
     randomNumbersArray.shift();
@@ -138,18 +156,27 @@ function handleButtonClick(e) {
   let productName = [];
   let productClicks = [];
   let ProductsViews = [];
+  
+  
   for (let i = 0; i < allProducts.length; i++) {
     let li = document.createElement('li');
-    // li.textContent = `${allProducts[i].name} had ${allProducts[i].clicks} votes, and was seen ${allProducts[i].views} times.`;
-    // results.appendChild(li);
     productName.push(allProducts[i].name);
-    productClicks.push(allProducts[i].clicks);
-    ProductsViews.push(allProducts[i].views);
+    let eViews = 0;
+    let eLikes = 0;
+    for (let z = 0; z < allProducts[i].total.views.length; z++) {
+        eViews += allProducts[i].total.views[z];
+        eLikes += allProducts[i].total.likes[z];
+
+        
+    }
+    
+
+  
+   ProductsViews.push(eViews); 
+   productClicks.push(eLikes); 
   }
-
+  
   let labelArray = [1, 2, 3, 4, 5, 6, 7];
- 
-
   const data = {
     labels: productName,
     datasets: [{

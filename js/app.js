@@ -56,9 +56,6 @@ new Product('water-can');
 new Product('wine-glass');
 
 
-// image1.src = cover.png;
-// image2.src = cover.png;
-// image3.src = "img/cover.png";
 
 function selectRandomProduct() {
   return Math.floor(Math.random() * allProducts.length);
@@ -67,16 +64,6 @@ function selectRandomProduct() {
 //renders products to myContainer//
 
 function renderProduct() {
-
-  // let Product2 = selectRandomProduct();
-  // let Product3 = selectRandomProduct();
-
-
-  // console.log(allProducts[Product1].views);
-  // console.log(allProducts[Product2].views);
-  // console.log(allProducts[Product3].views);
-
-  //array.method. include() look this up will be useful//
 
   //makes sure products are not the same//
   while (randomNumbersArray.length < 6) {
@@ -244,18 +231,20 @@ function handleButtonClick(e) {
   );
 
 }
-
+// event handler for when the page loads instruct the user
 function handleAlert(e) {
   alert('To begin click one of the boxes below to load first three products');
 }
-
+//event listener for the event handler that displays results when clicking the view results button on the page
 myButton.addEventListener('click', handleButtonClick);
 
+//event listner for the event handler that displays new random products upon clicking on a product
 myContainer.addEventListener('click', handleProductClick);
 
+//event listener for event handler that instucts the user 
 window.addEventListener('load', handleAlert);
 
-// map two labels for Chart.Js to productLikes and ProductsViews below
+
 
 
 
